@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dialog IIFE Build Example</title>
+    <link rel="stylesheet" href="/examples/styles.css" />
+    <script src="/dist/plain-elements.iife.js"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <p class="page-nav"><a href="/">Back to examples</a></p>
+        <h1>Dialog IIFE Build Example</h1>
+        <p>
+          This page loads <code>/dist/plain-elements.iife.js</code> with a
+          normal script tag.
+        </p>
+      </header>
+
+      <section class="example-section" aria-labelledby="iife-dialog-title">
+        <div class="example-heading">
+          <h2 id="iife-dialog-title">CMS-style script tag usage</h2>
+          <div class="actions">
+            <button type="button" data-dialog-trigger="iife-dialog">
+              Open dialog
+            </button>
+          </div>
+        </div>
+
+        <pe-dialog id="iife-dialog">
+          <dialog data-dialog-dismiss>
+            <header class="dialog-header">
+              <h2 data-dialog-title>IIFE dialog</h2>
+              <button class="ghost-button" type="button" data-dialog-close>
+                Close
+              </button>
+            </header>
+
+            <p data-dialog-description>
+              No module import is required. Loading the IIFE file defines the
+              custom element.
+            </p>
+          </dialog>
+        </pe-dialog>
+      </section>
+    </main>
+  </body>
+</html>

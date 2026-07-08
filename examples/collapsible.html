@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collapsible Example</title>
+    <link rel="stylesheet" href="/examples/styles.css" />
+    <script type="module" src="/src/index.ts"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <p class="page-nav"><a href="/">Back to examples</a></p>
+        <h1>Collapsible Example</h1>
+        <p class="example-note">
+          Use Collapsible for one independently controlled disclosure region.
+          Most examples below open and close instantly; height animation is
+          optional and shown in one dedicated sample.
+        </p>
+      </header>
+
+      <section class="component-example" aria-labelledby="basic-title">
+        <h2 id="basic-title">Basic collapsible</h2>
+        <p class="example-note">
+          A single trigger and panel with no author-defined transition.
+        </p>
+        <pe-collapsible class="collapsible-example">
+          <button type="button" data-collapsible-trigger>
+            Project details
+          </button>
+          <div data-collapsible-panel>
+            <p>
+              Plain Elements provides accessible, unstyled UI primitives for
+              disclosure regions that need custom markup.
+            </p>
+          </div>
+        </pe-collapsible>
+      </section>
+
+      <section class="component-example" aria-labelledby="animation-title">
+        <h2 id="animation-title">Height animation</h2>
+        <p class="example-note">
+          Optional height transition using
+          <code>--collapsible-panel-height</code>,
+          <code>data-starting-style</code>, and
+          <code>data-ending-style</code> like
+          <a href="https://base-ui.com/react/components/collapsible">Base UI</a>.
+        </p>
+        <pe-collapsible class="collapsible-example collapsible-example--animated">
+          <button type="button" data-collapsible-trigger>
+            <span>Recovery keys</span>
+            <svg
+              class="collapsible-example__icon"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path d="M6 12V4l4.5 4z" />
+            </svg>
+          </button>
+          <div class="collapsible-panel" data-collapsible-panel>
+            <div class="collapsible-panel-content">
+              <p>alien-bean-pasta</p>
+              <p>wild-irish-burrito</p>
+              <p>horse-battery-staple</p>
+            </div>
+          </div>
+        </pe-collapsible>
+      </section>
+
+      <section class="component-example" aria-labelledby="until-found-title">
+        <h2 id="until-found-title">Hidden until found</h2>
+        <p class="example-note">
+          Add <code>data-collapsible-hidden-until-found</code> so closed content
+          can be discovered with browser find-in-page and opened through
+          <code>beforematch</code>.
+        </p>
+        <pe-collapsible
+          class="collapsible-example"
+          data-collapsible-hidden-until-found
+        >
+          <button type="button" data-collapsible-trigger>Searchable notes</button>
+          <div data-collapsible-panel>
+            <div class="collapsible-panel-content">
+              <p>Try find-in-page for “quarterly review”.</p>
+            </div>
+          </div>
+        </pe-collapsible>
+      </section>
+
+      <section class="component-example" aria-labelledby="initial-open-title">
+        <h2 id="initial-open-title">Initially open</h2>
+        <p class="example-note">
+          Use <code>data-collapsible-open</code> on the host for an expanded
+          initial state.
+        </p>
+        <pe-collapsible class="collapsible-example" data-collapsible-open>
+          <button type="button" data-collapsible-trigger>
+            Shipping policy
+          </button>
+          <div data-collapsible-panel>
+            <div class="collapsible-panel-content">
+              <p>Standard shipping arrives within three to five business days.</p>
+            </div>
+          </div>
+        </pe-collapsible>
+      </section>
+
+      <section class="component-example" aria-labelledby="disabled-title">
+        <h2 id="disabled-title">Disabled</h2>
+        <p class="example-note">
+          Root <code>data-collapsible-disabled</code> ignores trigger clicks
+          while keeping the trigger focusable.
+        </p>
+        <pe-collapsible
+          class="collapsible-example"
+          data-collapsible-disabled
+          data-collapsible-open
+        >
+          <button type="button" data-collapsible-trigger>
+            Account settings
+          </button>
+          <div data-collapsible-panel>
+            <p>Notification and privacy preferences.</p>
+          </div>
+        </pe-collapsible>
+      </section>
+    </main>
+  </body>
+</html>

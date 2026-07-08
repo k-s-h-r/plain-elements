@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabs Example</title>
+    <link rel="stylesheet" href="/examples/styles.css" />
+    <script type="module" src="/src/index.ts"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <p class="page-nav"><a href="/">Back to examples</a></p>
+        <h1>Tabs Example</h1>
+        <p class="example-note">
+          Most examples below use an instant indicator. One dedicated sample
+          shows a sliding underline driven by
+          <code>--active-tab-left</code> and <code>--active-tab-width</code>.
+        </p>
+      </header>
+
+      <section class="component-example" aria-labelledby="automatic-title">
+        <h2 id="automatic-title">Automatic activation and disabled skip</h2>
+        <pe-tabs>
+          <div class="tabs-list" data-tabs-list aria-label="Account settings">
+            <button type="button" data-tabs-trigger="profile">Profile</button>
+            <button type="button" data-tabs-trigger="security" disabled>
+              Security
+            </button>
+            <button type="button" data-tabs-trigger="billing">Billing</button>
+            <span class="tabs-indicator" data-tabs-indicator></span>
+          </div>
+          <section class="tabs-panel" data-tabs-content="profile">
+            Press Right Arrow to skip the disabled Security tab.
+          </section>
+          <section class="tabs-panel" data-tabs-content="security">
+            Change your password and active sessions.
+          </section>
+          <section class="tabs-panel" data-tabs-content="billing">
+            Manage invoices and payment methods.
+          </section>
+        </pe-tabs>
+      </section>
+
+      <section class="component-example" aria-labelledby="indicator-title">
+        <h2 id="indicator-title">Sliding indicator</h2>
+        <p class="example-note">
+          Optional <code>[data-tabs-indicator]</code> receives active-tab
+          geometry as CSS variables, like
+          <a href="https://base-ui.com/react/components/tabs">Base UI</a>.
+        </p>
+        <pe-tabs class="tabs-example--animated">
+          <div class="tabs-list" data-tabs-list aria-label="Workspace">
+            <button type="button" data-tabs-trigger="overview">Overview</button>
+            <button type="button" data-tabs-trigger="activity">
+              Activity log
+            </button>
+            <button type="button" data-tabs-trigger="billing">Billing</button>
+            <span class="tabs-indicator" data-tabs-indicator></span>
+          </div>
+          <section class="tabs-panel" data-tabs-content="overview">
+            Workspace stats and recent updates.
+          </section>
+          <section class="tabs-panel" data-tabs-content="activity">
+            Filterable timeline of team actions.
+          </section>
+          <section class="tabs-panel" data-tabs-content="billing">
+            Invoices and payment methods.
+          </section>
+        </pe-tabs>
+      </section>
+
+      <section class="component-example" aria-labelledby="manual-title">
+        <h2 id="manual-title">Vertical manual activation without looping</h2>
+        <pe-tabs
+          class="vertical-tabs"
+          data-tabs-orientation="vertical"
+          data-tabs-activation="manual"
+          data-tabs-loop="false"
+        >
+          <div
+            class="tabs-list tabs-list-vertical"
+            data-tabs-list
+            aria-label="Project settings"
+          >
+            <button type="button" data-tabs-trigger="general">General</button>
+            <button type="button" data-tabs-trigger="privacy">Privacy</button>
+            <button type="button" data-tabs-trigger="advanced">Advanced</button>
+          </div>
+          <section class="tabs-panel" data-tabs-content="general">
+            Move focus with Up and Down, then activate with Enter or Space.
+          </section>
+          <section class="tabs-panel" data-tabs-content="privacy">
+            Privacy settings.
+          </section>
+          <section class="tabs-panel" data-tabs-content="advanced">
+            Focus stops here instead of wrapping.
+          </section>
+        </pe-tabs>
+      </section>
+    </main>
+  </body>
+</html>

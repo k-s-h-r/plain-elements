@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plain Elements — document observer perf harness</title>
+    <!--
+      Measurement harness only (not a user-facing demo).
+      Run with `npm run dev`, open /examples/perf.html, click "Run churn benchmark".
+      Records approximate refresh fan-out and trigger-selector scan counts by
+      monkey-patching DOM APIs while unrelated DOM nodes are added/removed.
+    -->
+    <link rel="stylesheet" href="/examples/styles.css" />
+    <script type="module" src="/src/index.ts"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <p class="page-nav"><a href="/">Back to examples</a></p>
+        <h1>Document observer perf harness</h1>
+        <p>
+          Instantiates many dialog / popover / tooltip hosts with external
+          triggers, then churns unrelated DOM nodes to stress shared document
+          observers.
+        </p>
+      </header>
+
+      <section class="example-section">
+        <div class="actions">
+          <button type="button" id="run-benchmark">Run churn benchmark</button>
+        </div>
+        <pre id="results" aria-live="polite"></pre>
+      </section>
+
+      <div id="hosts" hidden></div>
+      <div id="churn-root"></div>
+    </main>
+
+    <script type="module">
+      const INSTANCE_COUNT = 40;
+      const CHURN_BATCHES = 20;
+      const NODES_PER_BATCH = 10;
+
+      const hostsRoot = document.getElementById("hosts");
+      const results = document.getElementById("results");
+
+      function buildHosts() {
+        hostsRoot.replaceChildren();
+
+        for (let index = 0; index < INSTANCE_COUNT; index += 1) {
+          const dialogId = `perf-dialog-${index}`;
+          const popoverId = `perf-popover-${index}`;
+          const tooltipId = `perf-tooltip-${index}`;
+
+          hostsRoot.insertAdjacentHTML(
+            "beforeend",
+            `
+              <button type="button" data-dialog-trigger="${dialogId}">Dialog ${index}</button>
+              <pe-dialog id="${dialogId}">
+                <dialog aria-label="Dialog ${index}"></dialog>
+              </pe-dialog>
+
+              <button type="button" data-popover-trigger="${popoverId}">Popover ${index}</button>
+              <pe-popover id="${popoverId}">
+                <div data-popover-content hidden aria-label="Popover ${index}">Content</div>
+              </pe-popover>
+
+              <button type="button" data-tooltip-trigger="${tooltipId}">Tooltip ${index}</button>
+              <pe-tooltip id="${tooltipId}">
+                <span data-tooltip-content>Tip ${index}</span>
+              </pe-tooltip>
+            `
+          );
+        }
+      }
+
+      function installCounters() {
+        let observerCallbacks = 0;
+        let triggerSelectorScans = 0;
+        const originalQuerySelectorAll = document.querySelectorAll.bind(document);
+
+        document.querySelectorAll = function patchedQuerySelectorAll(selector) {
+          if (
+            selector === "[data-dialog-trigger]" ||
+            selector === "[data-popover-trigger]" ||
+            selector === "[data-tooltip-trigger]"
+          ) {
+            triggerSelectorScans += 1;
+          }
+
+          return originalQuerySelectorAll(selector);
+        };
+
+        const OriginalMutationObserver = window.MutationObserver;
+        window.MutationObserver = class CountingMutationObserver extends OriginalMutationObserver {
+          constructor(callback) {
+            super((records, observer) => {
+              observerCallbacks += 1;
+              callback(records, observer);
+            });
+          }
+        };
+
+        return () => ({
+          observerCallbacks,
+          triggerSelectorScans,
+          restore() {
+            document.querySelectorAll = originalQuerySelectorAll;
+            window.MutationObserver = OriginalMutationObserver;
+          }
+        });
+      }
+
+      async function runChurn() {
+        const countersFactory = installCounters();
+        const start = performance.now();
+
+        for (let batch = 0; batch < CHURN_BATCHES; batch += 1) {
+          const fragment = document.createDocumentFragment();
+
+          for (let node = 0; node < NODES_PER_BATCH; node += 1) {
+            const element = document.createElement("div");
+            element.textContent = `churn-${batch}-${node}`;
+            fragment.appendChild(element);
+          }
+
+          document.getElementById("churn-root").appendChild(fragment);
+          await new Promise((resolve) => queueMicrotask(resolve));
+          document.getElementById("churn-root").replaceChildren();
+          await new Promise((resolve) => queueMicrotask(resolve));
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        const elapsedMs = performance.now() - start;
+        const counters = countersFactory();
+
+        results.textContent = [
+          `instances per component: ${INSTANCE_COUNT}`,
+          `churn batches: ${CHURN_BATCHES} × ${NODES_PER_BATCH} nodes`,
+          `MutationObserver callback invocations: ${counters.observerCallbacks}`,
+          `document trigger selector scans: ${counters.triggerSelectorScans}`,
+          `elapsed ms: ${elapsedMs.toFixed(1)}`
+        ].join("\n");
+
+        counters.restore();
+      }
+
+      buildHosts();
+      document.getElementById("run-benchmark").addEventListener("click", () => {
+        void runChurn();
+      });
+    </script>
+  </body>
+</html>

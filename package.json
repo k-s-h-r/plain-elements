@@ -1,0 +1,98 @@
+{
+  "name": "plain-elements",
+  "version": "0.1.0",
+  "description": "Unstyled, accessible UI primitives as framework-agnostic Web Components. Light DOM and progressive enhancement, styled with your own CSS.",
+  "keywords": [
+    "web-components",
+    "custom-elements",
+    "accessibility",
+    "a11y",
+    "ui",
+    "primitives",
+    "unstyled",
+    "headless",
+    "light-dom",
+    "dialog",
+    "popover",
+    "tooltip",
+    "tabs",
+    "accordion",
+    "collapsible"
+  ],
+  "homepage": "https://plain-elements.com/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/k-s-h-r/plain-elements.git"
+  },
+  "bugs": {
+    "url": "https://github.com/k-s-h-r/plain-elements/issues"
+  },
+  "license": "MIT",
+  "author": "k-s-h-r",
+  "type": "module",
+  "sideEffects": [
+    "./dist/plain-elements.js",
+    "./dist/plain-elements.iife.js",
+    "./dist/accordion.js",
+    "./dist/collapsible.js",
+    "./dist/dialog.js",
+    "./dist/popover.js",
+    "./dist/tabs.js",
+    "./dist/tooltip.js"
+  ],
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build && vite build -c vite.iife.config.ts && tsc -p tsconfig.build.json",
+    "verify-exports": "node scripts/verify-exports.mjs",
+    "prepublishOnly": "npm run build && npm run verify-exports",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:headed": "vitest --browser.headless=false",
+    "typecheck": "tsc --noEmit"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/plain-elements.js",
+      "default": "./dist/plain-elements.iife.js"
+    },
+    "./accordion": {
+      "types": "./dist/accordion.d.ts",
+      "import": "./dist/accordion.js"
+    },
+    "./collapsible": {
+      "types": "./dist/collapsible.d.ts",
+      "import": "./dist/collapsible.js"
+    },
+    "./dialog": {
+      "types": "./dist/dialog.d.ts",
+      "import": "./dist/dialog.js"
+    },
+    "./popover": {
+      "types": "./dist/popover.d.ts",
+      "import": "./dist/popover.js"
+    },
+    "./tabs": {
+      "types": "./dist/tabs.d.ts",
+      "import": "./dist/tabs.js"
+    },
+    "./tooltip": {
+      "types": "./dist/tooltip.d.ts",
+      "import": "./dist/tooltip.js"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^26.0.0",
+    "@vitest/browser-playwright": "^4.1.9",
+    "playwright": "^1.61.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.1.0",
+    "vitest": "^4.1.9"
+  }
+}

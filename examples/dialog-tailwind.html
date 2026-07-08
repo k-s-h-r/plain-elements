@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dialog Tailwind CDN Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script type="module" src="/src/index.ts"></script>
+    <style type="text/tailwindcss">
+      @layer components {
+        pe-dialog {
+          display: contents;
+        }
+
+        pe-dialog dialog {
+          margin: auto;
+        }
+
+        pe-dialog dialog::backdrop {
+          @apply bg-slate-950/45 backdrop-blur-sm;
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-dvh bg-zinc-50 text-zinc-950 antialiased">
+    <main class="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
+      <p class="mb-4 text-sm">
+        <a class="font-medium text-zinc-500 hover:text-zinc-800" href="/">Back to examples</a>
+      </p>
+      <header class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="text-sm font-medium text-zinc-500">Tailwind Play CDN</p>
+          <h1 class="mt-1 text-3xl font-semibold tracking-normal text-zinc-950">
+            Dialog Tailwind Example
+          </h1>
+        </div>
+        <a
+          class="inline-flex min-h-10 items-center justify-center rounded-md border border-zinc-300 bg-white px-3 text-sm font-medium text-zinc-800 hover:bg-zinc-100"
+          href="/examples/dialog.html"
+        >
+          Plain CSS example
+        </a>
+      </header>
+
+      <div class="divide-y divide-zinc-200 rounded-lg border border-zinc-200 bg-white">
+        <section class="grid gap-4 p-4 sm:grid-cols-[1fr_auto] sm:items-center">
+          <div>
+            <h2 class="text-base font-medium text-zinc-950">External trigger</h2>
+            <p class="mt-1 text-sm leading-6 text-zinc-600">
+              Trigger and dialog are separated by id.
+            </p>
+          </div>
+          <button
+            class="inline-flex min-h-10 items-center justify-center rounded-md bg-zinc-950 px-4 text-sm font-medium text-white hover:bg-zinc-800 data-[state=open]:bg-emerald-700"
+            type="button"
+            data-dialog-trigger="tw-settings-dialog"
+          >
+            Open settings
+          </button>
+
+          <pe-dialog id="tw-settings-dialog">
+            <dialog
+              class="w-full max-w-lg rounded-lg border border-zinc-200 bg-white p-0 text-zinc-950 shadow-xl"
+              data-dialog-dismiss
+            >
+              <div class="flex items-start justify-between gap-4 border-b border-zinc-200 px-5 py-4">
+                <div>
+                  <h2 class="text-lg font-semibold text-zinc-950" data-dialog-title>
+                    Settings
+                  </h2>
+                  <p
+                    class="mt-1 text-sm text-zinc-600"
+                    data-dialog-description
+                  >
+                    Styled entirely with Tailwind utilities.
+                  </p>
+                </div>
+                <button
+                  class="inline-flex min-h-8 items-center rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-700 hover:bg-zinc-100"
+                  type="button"
+                  data-dialog-close
+                >
+                  Close
+                </button>
+              </div>
+              <div class="grid gap-4 px-5 py-5">
+                <label class="grid gap-1 text-sm font-medium text-zinc-800">
+                  Workspace name
+                  <input
+                    class="min-h-10 rounded-md border border-zinc-300 px-3 font-normal text-zinc-950 outline-none focus:border-zinc-900"
+                    value="Plain Elements"
+                  />
+                </label>
+                <label class="grid gap-1 text-sm font-medium text-zinc-800">
+                  Visibility
+                  <select
+                    class="min-h-10 rounded-md border border-zinc-300 px-3 font-normal text-zinc-950 outline-none focus:border-zinc-900"
+                  >
+                    <option>Private</option>
+                    <option>Public</option>
+                  </select>
+                </label>
+              </div>
+              <div class="flex justify-end gap-2 border-t border-zinc-200 px-5 py-4">
+                <button
+                  class="inline-flex min-h-10 items-center rounded-md border border-zinc-300 bg-white px-4 text-sm font-medium text-zinc-800 hover:bg-zinc-100"
+                  type="button"
+                  data-dialog-close
+                  value="cancel"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="inline-flex min-h-10 items-center rounded-md bg-zinc-950 px-4 text-sm font-medium text-white hover:bg-zinc-800"
+                  type="button"
+                  data-dialog-close
+                  value="save"
+                >
+                  Save
+                </button>
+              </div>
+            </dialog>
+          </pe-dialog>
+        </section>
+
+        <section class="grid gap-4 p-4 sm:grid-cols-[1fr_auto] sm:items-center">
+          <div>
+            <h2 class="text-base font-medium text-zinc-950">Form method dialog</h2>
+            <p class="mt-1 text-sm leading-6 text-zinc-600">
+              Uses native form method="dialog" buttons.
+            </p>
+          </div>
+          <button
+            class="inline-flex min-h-10 items-center justify-center rounded-md border border-zinc-300 bg-white px-4 text-sm font-medium text-zinc-800 hover:bg-zinc-100 data-[state=open]:border-emerald-600 data-[state=open]:text-emerald-700"
+            type="button"
+            data-dialog-trigger="tw-confirm-dialog"
+          >
+            Confirm action
+          </button>
+
+          <pe-dialog id="tw-confirm-dialog">
+            <dialog
+              class="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-5 text-zinc-950 shadow-xl"
+            >
+              <h2 class="text-lg font-semibold" data-dialog-title>
+                Confirm action
+              </h2>
+              <p
+                class="mt-2 text-sm leading-6 text-zinc-600"
+                data-dialog-description
+              >
+                The close behavior here is handled by native dialog form
+                submission.
+              </p>
+              <form class="mt-5 flex justify-end gap-2" method="dialog">
+                <button
+                  class="inline-flex min-h-10 items-center rounded-md border border-zinc-300 bg-white px-4 text-sm font-medium text-zinc-800 hover:bg-zinc-100"
+                  value="cancel"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="inline-flex min-h-10 items-center rounded-md bg-zinc-950 px-4 text-sm font-medium text-white hover:bg-zinc-800"
+                  value="confirm"
+                >
+                  Confirm
+                </button>
+              </form>
+            </dialog>
+          </pe-dialog>
+        </section>
+
+        <section class="grid gap-4 p-4 sm:grid-cols-[1fr_auto] sm:items-center">
+          <div>
+            <h2 class="text-base font-medium text-zinc-950">Internal trigger</h2>
+            <p class="mt-1 text-sm leading-6 text-zinc-600">
+              The trigger is inside the pe-dialog host.
+            </p>
+          </div>
+
+          <pe-dialog>
+            <button
+              class="inline-flex min-h-10 items-center justify-center rounded-md border border-zinc-300 bg-white px-4 text-sm font-medium text-zinc-800 hover:bg-zinc-100 data-[state=open]:border-emerald-600 data-[state=open]:text-emerald-700"
+              type="button"
+              data-dialog-trigger
+            >
+              Open internal
+            </button>
+            <dialog
+              class="w-full max-w-md rounded-lg border border-zinc-200 bg-white p-5 text-zinc-950 shadow-xl"
+              data-dialog-dismiss
+            >
+              <div class="flex items-start justify-between gap-4">
+                <h2 class="text-lg font-semibold" data-dialog-title>
+                  Internal trigger
+                </h2>
+                <button
+                  class="inline-flex min-h-8 items-center rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-700 hover:bg-zinc-100"
+                  type="button"
+                  data-dialog-close
+                >
+                  Close
+                </button>
+              </div>
+              <p
+                class="mt-3 text-sm leading-6 text-zinc-600"
+                data-dialog-description
+              >
+                The component generates an id because this dialog has no
+                authored id.
+              </p>
+            </dialog>
+          </pe-dialog>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

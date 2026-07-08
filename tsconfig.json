@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "types": ["vitest"]
+  },
+  "include": [
+    "src",
+    "tests",
+    "examples",
+    "vite.config.ts",
+    "vite.iife.config.ts",
+    "vitest.config.ts"
+  ]
+}

@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accordion Example</title>
+    <link rel="stylesheet" href="/examples/styles.css" />
+    <script type="module" src="/src/index.ts"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <p class="page-nav"><a href="/">Back to examples</a></p>
+        <h1>Accordion Example</h1>
+      </header>
+
+      <section class="component-example" aria-labelledby="single-title">
+        <h2 id="single-title">Native details accordion (recommended)</h2>
+        <p class="example-note">
+          Start with native <code>&lt;details&gt;</code> and
+          <code>&lt;summary&gt;</code>. The shared <code>name</code> provides
+          single-open behavior without JavaScript.
+        </p>
+        <pe-accordion>
+          <details data-accordion-item data-accordion-value="shipping" name="faq">
+            <summary>How long does shipping take?</summary>
+            <p>Standard shipping arrives within three to five business days.</p>
+          </details>
+          <details data-accordion-item data-accordion-value="returns" name="faq">
+            <summary>Can I return an item?</summary>
+            <p>Unused items can be returned within 30 days.</p>
+          </details>
+          <details data-accordion-item data-accordion-value="warranty" name="faq">
+            <summary>Is there a warranty?</summary>
+            <p>All products include a one-year limited warranty.</p>
+          </details>
+        </pe-accordion>
+      </section>
+
+      <section class="component-example" aria-labelledby="managed-title">
+        <h2 id="managed-title">Managed alternative for height animation</h2>
+        <p class="example-note">
+          This is the same FAQ as the native example above. Use explicit button
+          and panel parts only when height animation must work without
+          <code>::details-content</code>. Find-in-page opening becomes a
+          progressive enhancement through
+          <code>data-accordion-hidden-until-found</code>.
+        </p>
+        <pe-accordion
+          class="managed-accordion"
+          data-accordion-single
+          data-accordion-hidden-until-found
+        >
+          <div data-accordion-item data-accordion-value="managed-shipping">
+            <h3>
+              <button type="button" data-accordion-trigger>Shipping</button>
+            </h3>
+            <div data-accordion-panel>
+              <div class="managed-accordion__panel-content">
+                Standard shipping arrives within three to five business days.
+              </div>
+            </div>
+          </div>
+          <div data-accordion-item data-accordion-value="managed-returns">
+            <h3>
+              <button type="button" data-accordion-trigger>Returns</button>
+            </h3>
+            <div data-accordion-panel>
+              <div class="managed-accordion__panel-content">
+                Unused items can be returned within 30 days.
+              </div>
+            </div>
+          </div>
+          <div data-accordion-item data-accordion-value="managed-warranty">
+            <h3>
+              <button type="button" data-accordion-trigger>Warranty</button>
+            </h3>
+            <div data-accordion-panel>
+              <div class="managed-accordion__panel-content">
+                All products include a one-year limited warranty.
+              </div>
+            </div>
+          </div>
+        </pe-accordion>
+      </section>
+
+      <section class="component-example" aria-labelledby="base-ui-title">
+        <h2 id="base-ui-title">Base UI-like styling</h2>
+        <p class="example-note">
+          Native <code>&lt;details&gt;</code> / <code>&lt;summary&gt;</code> with a
+          Base UI-inspired layout. Header and trigger are merged into
+          <code>&lt;summary&gt;</code>; the panel is the content that follows it.
+        </p>
+        <pe-accordion class="base-ui-accordion">
+          <details
+            data-accordion-item
+            data-accordion-value="what-is"
+            name="base-ui-faq"
+          >
+            <summary>
+              <span class="base-ui-accordion__label">What is Base UI?</span>
+              <svg
+                class="base-ui-accordion__icon"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M8 3.5v9M3.5 8h9"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </summary>
+            <div class="base-ui-accordion__panel">
+              <div class="base-ui-accordion__panel-inner">
+                <p>
+                  Base UI is a library of high-quality unstyled React components
+                  for design systems and web apps.
+                </p>
+              </div>
+            </div>
+          </details>
+          <details
+            data-accordion-item
+            data-accordion-value="install"
+            name="base-ui-faq"
+          >
+            <summary>
+              <span class="base-ui-accordion__label">How do I install it?</span>
+              <svg
+                class="base-ui-accordion__icon"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M8 3.5v9M3.5 8h9"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </summary>
+            <div class="base-ui-accordion__panel">
+              <div class="base-ui-accordion__panel-inner">
+                <p>
+                  Install the package for your framework, then import the
+                  primitives you need and style them in your design system.
+                </p>
+              </div>
+            </div>
+          </details>
+          <details
+            data-accordion-item
+            data-accordion-value="tailwind"
+            name="base-ui-faq"
+          >
+            <summary>
+              <span class="base-ui-accordion__label">Can I use it with Tailwind?</span>
+              <svg
+                class="base-ui-accordion__icon"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M8 3.5v9M3.5 8h9"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </summary>
+            <div class="base-ui-accordion__panel">
+              <div class="base-ui-accordion__panel-inner">
+                <p>
+                  Yes. Base UI ships unstyled parts, so utility classes or your
+                  own CSS can shape triggers, panels, and icons.
+                </p>
+              </div>
+            </div>
+          </details>
+        </pe-accordion>
+      </section>
+
+      <section class="component-example" aria-labelledby="multiple-title">
+        <h2 id="multiple-title">Multiple open and disabled item</h2>
+        <pe-accordion>
+          <details data-accordion-item data-accordion-value="alpha" open>
+            <summary>Alpha</summary>
+            <p>This item can stay open with other items.</p>
+          </details>
+          <details data-accordion-item data-accordion-value="beta" open>
+            <summary>Beta</summary>
+            <p>No name attribute means multiple items are allowed.</p>
+          </details>
+          <details
+            data-accordion-item
+            data-accordion-value="unavailable"
+            data-accordion-disabled
+          >
+            <summary>Unavailable item</summary>
+            <p>This item ignores user interaction.</p>
+          </details>
+        </pe-accordion>
+      </section>
+
+      <section class="component-example" aria-labelledby="api-title">
+        <h2 id="api-title">Programmatic API</h2>
+        <p class="example-note">
+          The shared <code>name="api-faq"</code> makes this example single-open.
+          The API itself does not close sibling items.
+        </p>
+        <div class="button-row button-row-start">
+          <button type="button" data-open-returns>Open returns</button>
+          <button type="button" data-close-all>Close all</button>
+        </div>
+        <pe-accordion id="api-accordion">
+          <details
+            data-accordion-item
+            data-accordion-value="shipping"
+            name="api-faq"
+          >
+            <summary>Shipping</summary>
+            <p>Shipping information.</p>
+          </details>
+          <details
+            data-accordion-item
+            data-accordion-value="returns"
+            name="api-faq"
+          >
+            <summary>Returns</summary>
+            <p>Returns information.</p>
+          </details>
+        </pe-accordion>
+      </section>
+    </main>
+
+    <script>
+      const accordion = document.querySelector("#api-accordion");
+
+      document.querySelector("[data-open-returns]").addEventListener("click", () => {
+        accordion.open("returns");
+      });
+
+      document.querySelector("[data-close-all]").addEventListener("click", () => {
+        accordion.value = [];
+      });
+    </script>
+  </body>
+</html>

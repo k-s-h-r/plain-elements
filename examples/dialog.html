@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dialog Example</title>
+    <link rel="stylesheet" href="/examples/styles.css" />
+    <script type="module" src="/src/index.ts"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <p class="page-nav"><a href="/">Back to examples</a></p>
+        <h1>Dialog Example</h1>
+        <p>
+          <a href="/examples/dialog-tailwind.html">Tailwind CDN example</a>
+        </p>
+      </header>
+
+      <section class="example-section" aria-labelledby="external-title">
+        <div class="example-heading">
+          <h2 id="external-title">External trigger</h2>
+          <div class="actions">
+            <button type="button" data-dialog-trigger="settings-dialog">
+              Settings
+            </button>
+          </div>
+        </div>
+
+        <pe-dialog id="settings-dialog">
+          <dialog data-dialog-dismiss>
+            <header class="dialog-header">
+              <h2 data-dialog-title>Settings</h2>
+              <button
+                class="ghost-button"
+                type="button"
+                data-dialog-close
+                value="close"
+              >
+                Close
+              </button>
+            </header>
+
+            <p data-dialog-description>
+              This dialog is opened by a trigger outside the pe-dialog host.
+            </p>
+          </dialog>
+        </pe-dialog>
+      </section>
+
+      <section class="example-section" aria-labelledby="internal-title">
+        <div class="example-heading">
+          <h2 id="internal-title">Internal trigger</h2>
+        </div>
+
+        <pe-dialog>
+          <button type="button" data-dialog-trigger>
+            Open internal dialog
+          </button>
+
+          <dialog>
+            <header class="dialog-header">
+              <h2 data-dialog-title>Internal trigger</h2>
+              <button class="ghost-button" type="button" data-dialog-close>
+                Close
+              </button>
+            </header>
+
+            <p data-dialog-description>
+              This dialog has no authored id. The component generates one for
+              aria-controls.
+            </p>
+          </dialog>
+        </pe-dialog>
+      </section>
+
+      <section class="example-section" aria-labelledby="dismiss-title">
+        <div class="example-heading">
+          <h2 id="dismiss-title">Outside click dismiss</h2>
+          <div class="actions">
+            <button type="button" data-dialog-trigger="dismiss-dialog">
+              Open dismissable dialog
+            </button>
+          </div>
+        </div>
+
+        <pe-dialog id="dismiss-dialog">
+          <dialog data-dialog-dismiss>
+            <header class="dialog-header">
+              <h2 data-dialog-title>Dismissable dialog</h2>
+              <button class="ghost-button" type="button" data-dialog-close>
+                Close
+              </button>
+            </header>
+
+            <p data-dialog-description>
+              Pointer down on the backdrop closes this dialog. Pointer down
+              inside the dialog does not.
+            </p>
+          </dialog>
+        </pe-dialog>
+      </section>
+
+      <section class="example-section" aria-labelledby="confirm-title">
+        <div class="example-heading">
+          <h2 id="confirm-title">Form method dialog</h2>
+          <div class="actions">
+            <button type="button" data-dialog-trigger="confirm-dialog">
+              Confirm action
+            </button>
+          </div>
+        </div>
+
+        <pe-dialog id="confirm-dialog">
+          <dialog aria-labelledby="confirm-dialog-title">
+            <h2 id="confirm-dialog-title">Confirm action</h2>
+            <p data-dialog-description>
+              This uses native form method="dialog" close behavior.
+            </p>
+
+            <form class="button-row" method="dialog">
+              <button value="cancel">Cancel</button>
+              <button value="confirm">Confirm</button>
+            </form>
+          </dialog>
+        </pe-dialog>
+      </section>
+
+      <section class="example-section" aria-labelledby="alert-title">
+        <div class="example-heading">
+          <h2 id="alert-title">Alert dialog</h2>
+          <div class="actions">
+            <button type="button" data-dialog-trigger="delete-dialog">
+              Delete item
+            </button>
+            <span id="delete-result" role="status"></span>
+          </div>
+        </div>
+
+        <pe-dialog id="delete-dialog">
+          <dialog role="alertdialog" aria-modal="true">
+            <h2 data-dialog-title>Delete this item?</h2>
+            <p data-dialog-description>
+              This action cannot be undone.
+            </p>
+
+            <form class="button-row" method="dialog">
+              <button value="cancel" autofocus>Cancel</button>
+              <button class="danger-button" value="confirm">Delete</button>
+            </form>
+          </dialog>
+        </pe-dialog>
+      </section>
+
+      <section class="example-section" aria-labelledby="profile-title">
+        <div class="example-heading">
+          <h2 id="profile-title">Dialog containing a normal form</h2>
+          <div class="actions">
+            <button type="button" data-dialog-trigger="profile-dialog">
+              Edit profile
+            </button>
+          </div>
+        </div>
+
+        <pe-dialog id="profile-dialog">
+          <dialog>
+            <header class="dialog-header">
+              <h2 data-dialog-title>Edit profile</h2>
+              <button class="ghost-button" type="button" data-dialog-close>
+                Close
+              </button>
+            </header>
+
+            <form class="field-stack" action="#">
+              <label>
+                Display name
+                <input name="name" value="K" />
+              </label>
+
+              <label>
+                Email
+                <input name="email" type="email" value="k@example.com" />
+              </label>
+
+              <div class="button-row">
+                <button type="button" data-dialog-close value="cancel">
+                  Cancel
+                </button>
+                <button type="submit">Save</button>
+              </div>
+            </form>
+          </dialog>
+        </pe-dialog>
+      </section>
+
+      <section class="example-section" aria-labelledby="multi-title">
+        <div class="example-heading">
+          <h2 id="multi-title">Multiple triggers</h2>
+          <div class="actions">
+            <button type="button" data-dialog-trigger="shared-dialog">
+              Open from header
+            </button>
+            <button type="button" data-dialog-trigger="shared-dialog">
+              Open from row
+            </button>
+          </div>
+        </div>
+
+        <pe-dialog id="shared-dialog">
+          <dialog>
+            <header class="dialog-header">
+              <h2 data-dialog-title>Shared dialog</h2>
+              <button class="ghost-button" type="button" data-dialog-close>
+                Close
+              </button>
+            </header>
+
+            <p data-dialog-description>
+              Both triggers control the same native dialog.
+            </p>
+          </dialog>
+        </pe-dialog>
+      </section>
+
+      <section
+        class="example-section dialog-example--nested"
+        aria-labelledby="nested-title"
+      >
+        <div class="example-heading">
+          <h2 id="nested-title">Nested dialog</h2>
+          <p class="example-note">
+            Nested surfaces receive
+            <code>--nested-dialogs</code>,
+            <code>data-nested</code>, and
+            <code>data-nested-dialog-open</code> like
+            <a href="https://base-ui.com/react/components/dialog">Base UI</a>.
+          </p>
+          <div class="actions">
+            <button type="button" data-dialog-trigger="parent-dialog">
+              Open parent dialog
+            </button>
+          </div>
+        </div>
+
+        <pe-dialog id="parent-dialog">
+          <dialog data-dialog-dismiss>
+            <header class="dialog-header">
+              <h2 data-dialog-title>Parent dialog</h2>
+              <button class="ghost-button" type="button" data-dialog-close>
+                Close parent
+              </button>
+            </header>
+
+            <p data-dialog-description>
+              Open a child dialog without closing this parent dialog.
+            </p>
+
+            <button type="button" data-dialog-trigger="child-dialog">
+              Open child dialog
+            </button>
+
+            <pe-dialog id="child-dialog">
+              <dialog data-dialog-dismiss>
+                <header class="dialog-header">
+                  <h2 data-dialog-title>Child dialog</h2>
+                  <button
+                    class="ghost-button"
+                    type="button"
+                    data-dialog-close
+                  >
+                    Close child
+                  </button>
+                </header>
+
+                <p data-dialog-description>
+                  Closing this dialog restores focus to its trigger in the
+                  parent dialog.
+                </p>
+              </dialog>
+            </pe-dialog>
+          </dialog>
+        </pe-dialog>
+      </section>
+
+      <section class="example-section" aria-labelledby="programmatic-title">
+        <div class="example-heading">
+          <h2 id="programmatic-title">Programmatic API</h2>
+          <div class="actions">
+            <button type="button" id="programmatic-open">
+              Open with method
+            </button>
+          </div>
+        </div>
+
+        <pe-dialog id="programmatic-host">
+          <dialog>
+            <header class="dialog-header">
+              <h2 data-dialog-title>Programmatic dialog</h2>
+              <button class="ghost-button" type="button" data-dialog-close>
+                Close
+              </button>
+            </header>
+
+            <p data-dialog-description>This dialog is opened with host.open().</p>
+          </dialog>
+        </pe-dialog>
+      </section>
+    </main>
+
+    <script type="module">
+      const openButton = document.querySelector("#programmatic-open");
+      const host = document.querySelector("#programmatic-host");
+      const alertHost = document.querySelector("#delete-dialog");
+      const deleteResult = document.querySelector("#delete-result");
+
+      openButton?.addEventListener("click", () => {
+        host?.open(openButton);
+      });
+
+      alertHost?.addEventListener("pe-dialog:close", (event) => {
+        const { dialog, reason } = event.detail;
+        const confirmed =
+          reason === "form" && dialog.returnValue === "confirm";
+
+        if (deleteResult) {
+          deleteResult.textContent = confirmed
+            ? "Item deleted."
+            : "Deletion canceled.";
+        }
+      });
+    </script>
+  </body>
+</html>

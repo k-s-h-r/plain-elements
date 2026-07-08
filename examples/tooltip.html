@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tooltip Example</title>
+    <link rel="stylesheet" href="/examples/styles.css" />
+    <script type="module" src="/src/index.ts"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <p class="page-nav"><a href="/">Back to examples</a></p>
+        <h1>Tooltip Example</h1>
+      </header>
+
+      <section class="example-section" aria-labelledby="internal-title">
+        <div class="example-heading">
+          <h2 id="internal-title">Internal trigger</h2>
+          <div class="actions">
+            <pe-tooltip>
+              <button type="button" data-tooltip-trigger>
+                Save
+              </button>
+              <span data-tooltip-content hidden>
+                <span data-tooltip-arrow></span>
+                Saves this draft without publishing.
+              </span>
+            </pe-tooltip>
+          </div>
+        </div>
+      </section>
+
+      <section class="example-section" aria-labelledby="sides-title">
+        <div class="example-heading">
+          <h2 id="sides-title">Sides</h2>
+          <div class="actions tooltip-side-grid">
+            <button type="button" data-tooltip-trigger="top-tip">
+              Top
+            </button>
+            <button type="button" data-tooltip-trigger="right-tip">
+              Right
+            </button>
+            <button type="button" data-tooltip-trigger="bottom-tip">
+              Bottom
+            </button>
+            <button type="button" data-tooltip-trigger="left-tip">
+              Left
+            </button>
+          </div>
+        </div>
+
+        <pe-tooltip id="top-tip" data-tooltip-side="top">
+          <span data-tooltip-content hidden>
+            <span data-tooltip-arrow></span>
+            Positioned above the trigger.
+          </span>
+        </pe-tooltip>
+
+        <pe-tooltip id="right-tip" data-tooltip-side="right">
+          <span data-tooltip-content hidden>
+            <span data-tooltip-arrow></span>
+            Positioned to the right of the trigger.
+          </span>
+        </pe-tooltip>
+
+        <pe-tooltip id="bottom-tip" data-tooltip-side="bottom">
+          <span data-tooltip-content hidden>
+            <span data-tooltip-arrow></span>
+            Positioned below the trigger.
+          </span>
+        </pe-tooltip>
+
+        <pe-tooltip id="left-tip" data-tooltip-side="left">
+          <span data-tooltip-content hidden>
+            <span data-tooltip-arrow></span>
+            Positioned to the left of the trigger.
+          </span>
+        </pe-tooltip>
+      </section>
+
+      <section class="example-section" aria-labelledby="align-title">
+        <div class="example-heading">
+          <h2 id="align-title">Alignment and offset</h2>
+          <div class="actions">
+            <button type="button" data-tooltip-trigger="align-start-tip">
+              Start
+            </button>
+            <button type="button" data-tooltip-trigger="align-center-tip">
+              Center
+            </button>
+            <button type="button" data-tooltip-trigger="align-end-tip">
+              End
+            </button>
+          </div>
+        </div>
+
+        <pe-tooltip id="align-start-tip" data-tooltip-side="bottom" data-tooltip-align="start">
+          <span data-tooltip-content hidden>
+            Bottom side, start aligned.
+          </span>
+        </pe-tooltip>
+
+        <pe-tooltip
+          id="align-center-tip"
+          data-tooltip-side="bottom"
+          data-tooltip-align="center"
+          data-tooltip-offset="12"
+        >
+          <span data-tooltip-content hidden>
+            Bottom side, centered with a larger side offset.
+          </span>
+        </pe-tooltip>
+
+        <pe-tooltip
+          id="align-end-tip"
+          data-tooltip-side="bottom"
+          data-tooltip-align="end"
+          data-tooltip-align-offset="-8"
+        >
+          <span data-tooltip-content hidden>
+            Bottom side, end aligned with a small align offset.
+          </span>
+        </pe-tooltip>
+      </section>
+
+      <section class="example-section" aria-labelledby="multi-title">
+        <div class="example-heading">
+          <div>
+            <h2 id="multi-title">Multiple triggers</h2>
+            <p class="example-note">
+              Two controls share one tooltip via
+              <code>data-tooltip-trigger="shared-tip"</code>. The first hover waits
+              400&nbsp;ms; while the tooltip stays open, moving to the sibling
+              trigger repositions instantly without another delay.
+            </p>
+          </div>
+          <div class="actions">
+            <button type="button" data-tooltip-trigger="shared-tip">
+              Header action
+            </button>
+            <button type="button" data-tooltip-trigger="shared-tip">
+              Row action
+            </button>
+          </div>
+        </div>
+
+        <pe-tooltip
+          id="shared-tip"
+          data-tooltip-side="right"
+          data-tooltip-align="start"
+          data-tooltip-delay="400"
+          data-tooltip-close-delay="150"
+        >
+          <span data-tooltip-content hidden>
+            Both controls describe the same underlying action.
+          </span>
+        </pe-tooltip>
+      </section>
+
+      <section
+        class="example-section tooltip-example--animated"
+        aria-labelledby="animated-title"
+      >
+        <div class="example-heading">
+          <div>
+            <h2 id="animated-title">Animated positioning</h2>
+            <p class="example-note">
+              <code>--transform-origin</code> anchors enter and exit transitions to
+              the active trigger. Hover the button near the bottom edge.
+            </p>
+          </div>
+          <div class="actions">
+            <pe-tooltip data-tooltip-side="top" data-tooltip-offset="8">
+              <button type="button" data-tooltip-trigger>
+                Format
+              </button>
+              <span data-tooltip-content hidden>
+                Bold, italic, and underline styles.
+              </span>
+            </pe-tooltip>
+          </div>
+        </div>
+      </section>
+
+      <section class="example-section" aria-labelledby="delay-title">
+        <div class="example-heading">
+          <div>
+            <h2 id="delay-title">Open and close delay</h2>
+            <p class="example-note">
+              Hover waits 400&nbsp;ms to open and 150&nbsp;ms to close. Focus still
+              opens immediately.
+            </p>
+          </div>
+          <div class="actions">
+            <pe-tooltip
+              data-tooltip-delay="400"
+              data-tooltip-close-delay="150"
+              data-tooltip-side="bottom"
+            >
+              <button type="button" data-tooltip-trigger>
+                Delayed hover
+              </button>
+              <span data-tooltip-content hidden>
+                Opens after a short hover delay.
+              </span>
+            </pe-tooltip>
+          </div>
+        </div>
+      </section>
+
+      <section class="example-section" aria-labelledby="delay-group-title">
+        <div class="example-heading">
+          <div>
+            <h2 id="delay-group-title">Delay group</h2>
+            <p class="example-note">
+              Sibling hosts share <code>data-tooltip-delay-group</code>. The first
+              hover waits 400&nbsp;ms; moving to another button while a group
+              tooltip is open switches instantly. While
+              <code>data-tooltip-skip-delay</code> is active, leave also waits so
+              you can cross the gap between buttons.
+            </p>
+          </div>
+          <div class="tooltip-toolbar actions">
+            <button type="button" data-tooltip-trigger="bold-tip">Bold</button>
+            <button type="button" data-tooltip-trigger="italic-tip">Italic</button>
+            <button type="button" data-tooltip-trigger="underline-tip">
+              Underline
+            </button>
+          </div>
+        </div>
+
+        <pe-tooltip
+          id="bold-tip"
+          data-tooltip-delay="400"
+          data-tooltip-delay-group="formatting"
+          data-tooltip-skip-delay="300"
+          data-tooltip-side="bottom"
+        >
+          <span data-tooltip-content hidden>Bold text</span>
+        </pe-tooltip>
+
+        <pe-tooltip
+          id="italic-tip"
+          data-tooltip-delay="400"
+          data-tooltip-delay-group="formatting"
+          data-tooltip-skip-delay="300"
+          data-tooltip-side="bottom"
+        >
+          <span data-tooltip-content hidden>Italic text</span>
+        </pe-tooltip>
+
+        <pe-tooltip
+          id="underline-tip"
+          data-tooltip-delay="400"
+          data-tooltip-delay-group="formatting"
+          data-tooltip-skip-delay="300"
+          data-tooltip-side="bottom"
+        >
+          <span data-tooltip-content hidden>Underline text</span>
+        </pe-tooltip>
+      </section>
+
+      <section class="example-section" aria-labelledby="programmatic-title">
+        <div class="example-heading">
+          <h2 id="programmatic-title">Programmatic API</h2>
+          <div class="actions">
+            <button type="button" id="programmatic-show">
+              Open with method
+            </button>
+          </div>
+        </div>
+
+        <pe-tooltip id="programmatic-tooltip" data-tooltip-side="bottom">
+          <span data-tooltip-content hidden>
+            This tooltip is opened with host.open(trigger).
+          </span>
+        </pe-tooltip>
+      </section>
+    </main>
+
+    <script type="module">
+      const button = document.querySelector("#programmatic-show");
+      const tooltip = document.querySelector("#programmatic-tooltip");
+
+      button?.setAttribute("data-tooltip-trigger", "programmatic-tooltip");
+      button?.addEventListener("click", () => {
+        tooltip?.open(button);
+      });
+    </script>
+  </body>
+</html>

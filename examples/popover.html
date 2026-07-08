@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Popover Example</title>
+    <link rel="stylesheet" href="/examples/styles.css" />
+    <script type="module" src="/src/index.ts"></script>
+  </head>
+  <body>
+    <main class="page">
+      <header class="page-header">
+        <p class="page-nav"><a href="/">Back to examples</a></p>
+        <h1>Popover Example</h1>
+      </header>
+
+      <section class="example-section" aria-labelledby="internal-title">
+        <div class="example-heading">
+          <h2 id="internal-title">Internal trigger</h2>
+          <div class="actions">
+            <pe-popover data-popover-offset="8">
+              <button type="button" data-popover-trigger>Account</button>
+              <div data-popover-content hidden>
+                <span data-popover-arrow></span>
+                <div class="popover-header">
+                  <h2 data-popover-title>Account</h2>
+                  <button type="button" class="ghost-button" data-popover-close>
+                    Close
+                  </button>
+                </div>
+                <p data-popover-description>Manage your current session.</p>
+                <label>
+                  Display name
+                  <input data-popover-initial-focus value="Plain User" />
+                </label>
+              </div>
+            </pe-popover>
+          </div>
+        </div>
+      </section>
+
+      <section class="example-section" aria-labelledby="external-title">
+        <div class="example-heading">
+          <h2 id="external-title">External trigger</h2>
+          <div class="actions">
+            <button type="button" data-popover-trigger="filters-popover">
+              Filters
+            </button>
+          </div>
+        </div>
+
+        <pe-popover
+          id="filters-popover"
+          data-popover-side="left"
+          data-popover-align="start"
+          data-popover-offset="8"
+        >
+          <div data-popover-content hidden>
+            <div class="popover-header">
+              <h2 data-popover-title>Filters</h2>
+              <button type="button" class="ghost-button" data-popover-close>
+                Close
+              </button>
+            </div>
+            <p data-popover-description>Choose which records are shown.</p>
+            <label><input type="checkbox" /> Active only</label>
+          </div>
+        </pe-popover>
+      </section>
+
+      <section class="example-section" aria-labelledby="nested-title">
+        <div class="example-heading">
+          <h2 id="nested-title">Nested popover</h2>
+          <div class="actions">
+            <pe-popover data-popover-offset="8">
+              <button type="button" data-popover-trigger>Open parent</button>
+
+              <div data-popover-content hidden>
+                <div class="popover-header">
+                  <h2 data-popover-title>Parent popover</h2>
+                  <button type="button" class="ghost-button" data-popover-close>
+                    Close parent
+                  </button>
+                </div>
+                <p data-popover-description>
+                  The child remains associated with this native popover.
+                </p>
+
+                <pe-popover
+                  data-popover-side="right"
+                  data-popover-align="start"
+                  data-popover-offset="8"
+                >
+                  <button type="button" data-popover-trigger>Open child</button>
+
+                  <div class="nested-popover-content" data-popover-content hidden>
+                    <div class="popover-header">
+                      <h2 data-popover-title>Child popover</h2>
+                      <button
+                        type="button"
+                        class="ghost-button"
+                        data-popover-close
+                      >
+                        Close child
+                      </button>
+                    </div>
+                    <p data-popover-description>
+                      Escape or outside press closes this child first.
+                    </p>
+                  </div>
+                </pe-popover>
+              </div>
+            </pe-popover>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="example-section popover-example--positioned"
+        aria-labelledby="viewport-title"
+      >
+        <div class="example-heading">
+          <div>
+            <h2 id="viewport-title">Viewport-aware content</h2>
+            <p class="example-note">
+              <code>--available-height</code> and
+              <code>--transform-origin</code> cap and anchor enter/exit
+              transitions. Close waits for the exit animation to finish.
+            </p>
+          </div>
+          <div class="actions">
+            <pe-popover data-popover-side="bottom" data-popover-offset="8">
+              <button type="button" data-popover-trigger>Open near bottom</button>
+              <div data-popover-content hidden>
+                <div class="popover-header">
+                  <h2 data-popover-title>Activity</h2>
+                  <button type="button" class="ghost-button" data-popover-close>
+                    Close
+                  </button>
+                </div>
+                <p data-popover-description>
+                  This panel scrolls when there is not enough space below the
+                  trigger.
+                </p>
+                <div class="popover-scroll-body">
+                  <p>Quarterly review notes</p>
+                  <p>Design sync summary</p>
+                  <p>Release checklist</p>
+                  <p>Customer feedback digest</p>
+                  <p>Incident postmortem draft</p>
+                </div>
+              </div>
+            </pe-popover>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
