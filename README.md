@@ -38,8 +38,10 @@ npm run build
 The build produces ES modules and an IIFE bundle in `dist/`. For static HTML or CMS pages, copy the IIFE build to your assets folder and load it with a script tag:
 
 ```html
-<script src="/assets/plain-elements.iife.js"></script>
+<script src="/assets/plain-elements.iife.js" defer></script>
 ```
+
+Place the script in `<head>` with `defer`, or before `</body>`. Both avoid parser-blocking and work with authored markup in the page body.
 
 ## Usage
 

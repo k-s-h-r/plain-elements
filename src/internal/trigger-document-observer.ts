@@ -2,6 +2,8 @@
 // One observer per trigger attribute (dialog / popover / tooltip). Not part of
 // the public API and not re-exported from src/index.ts.
 
+import { isDocumentLoading } from "./document-loading";
+
 function nodeTreeContainsTrigger(node: Node, triggerAttribute: string): boolean {
   if (!(node instanceof Element)) {
     return false;
@@ -54,11 +56,37 @@ export function createTriggerDocumentObserver(triggerAttribute: string): {
   let warnScheduled = false;
   let scheduleInvalidTriggerWarnings: (() => void) | null = null;
   let filterChildListRecords = false;
+  let documentReadyValidationScheduled = false;
 
   function dispatchRefresh(): void {
     for (const callback of refreshCallbacks.values()) {
       callback();
     }
+  }
+
+  function runInvalidTriggerWarningsWhenReady(): void {
+    if (!scheduleInvalidTriggerWarnings) {
+      return;
+    }
+
+    if (isDocumentLoading()) {
+      if (documentReadyValidationScheduled) {
+        return;
+      }
+
+      documentReadyValidationScheduled = true;
+      document.addEventListener(
+        "DOMContentLoaded",
+        () => {
+          documentReadyValidationScheduled = false;
+          scheduleInvalidTriggerWarnings?.();
+        },
+        { once: true }
+      );
+      return;
+    }
+
+    scheduleInvalidTriggerWarnings?.();
   }
 
   function scheduleWarnings(): void {
@@ -69,7 +97,7 @@ export function createTriggerDocumentObserver(triggerAttribute: string): {
     warnScheduled = true;
     queueMicrotask(() => {
       warnScheduled = false;
-      scheduleInvalidTriggerWarnings?.();
+      runInvalidTriggerWarningsWhenReady();
     });
   }
 

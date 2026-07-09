@@ -21,6 +21,7 @@ import {
   type Side
 } from "./internal/floating-position";
 import { setTemporaryStyle, waitForAnimations } from "./internal/motion";
+import { isDocumentLoading } from "./internal/document-loading";
 import { createTriggerDocumentObserver } from "./internal/trigger-document-observer";
 import { createWarnOnce } from "./internal/warnings";
 
@@ -739,7 +740,12 @@ export class TooltipElement extends HTMLElement {
       this.#applyInitialClosedState();
     }
 
-    this.#refresh();
+    if (isDocumentLoading()) {
+      this.#queueRefresh();
+    } else {
+      this.#refresh();
+    }
+
     this.#observe();
     sharedTriggerDocumentObserver.register(this, () => this.#queueRefresh());
   }
@@ -977,7 +983,11 @@ export class TooltipElement extends HTMLElement {
     if (contents.length === 0) {
       this.#content = null;
       this.dataset.state = "closed";
-      warn("Missing [data-tooltip-content] inside <pe-tooltip>.");
+
+      if (!isDocumentLoading()) {
+        warn("Missing [data-tooltip-content] inside <pe-tooltip>.");
+      }
+
       return;
     }
 
