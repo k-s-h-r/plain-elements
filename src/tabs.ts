@@ -6,6 +6,7 @@ import {
   type AttributeSnapshot
 } from "./internal/dom";
 import { dispatchCustomEvent } from "./internal/events";
+import { isDocumentLoading } from "./internal/document-loading";
 import { createWarnOnce } from "./internal/warnings";
 
 type TabsOrientation = "horizontal" | "vertical";
@@ -84,7 +85,13 @@ export class TabsElement extends HTMLElement {
     this.#hostActivationDirectionSnapshot = this.getAttribute(
       "data-activation-direction"
     );
-    this.#refresh("attribute");
+
+    if (isDocumentLoading()) {
+      this.#queueRefresh();
+    } else {
+      this.#refresh("attribute");
+    }
+
     this.#observe();
   }
 
@@ -189,7 +196,9 @@ export class TabsElement extends HTMLElement {
     this.#list = lists[0] ?? null;
 
     if (!this.#list) {
-      warn("Missing [data-tabs-list] inside <pe-tabs>.");
+      if (!isDocumentLoading()) {
+        warn("Missing [data-tabs-list] inside <pe-tabs>.");
+      }
     } else if (lists.length > 1) {
       warn("Multiple [data-tabs-list] elements found; using the first one.");
     }
@@ -215,7 +224,10 @@ export class TabsElement extends HTMLElement {
       const value = panel.getAttribute("data-tabs-content")?.trim() ?? "";
 
       if (!value) {
-        warn("Every [data-tabs-content] needs a non-empty value.");
+        if (!isDocumentLoading()) {
+          warn("Every [data-tabs-content] needs a non-empty value.");
+        }
+
         continue;
       }
 
@@ -246,7 +258,10 @@ export class TabsElement extends HTMLElement {
       const panel = panelsByValue.get(value);
 
       if (!panel) {
-        warn(`Tab "${value}" has no matching [data-tabs-content].`);
+        if (!isDocumentLoading()) {
+          warn(`Tab "${value}" has no matching [data-tabs-content].`);
+        }
+
         continue;
       }
 

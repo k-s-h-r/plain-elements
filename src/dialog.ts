@@ -5,6 +5,7 @@ import {
 } from "./internal/dom";
 import { dispatchCustomEvent } from "./internal/events";
 import { createTriggerDocumentObserver } from "./internal/trigger-document-observer";
+import { isDocumentLoading } from "./internal/document-loading";
 import { createWarnOnce } from "./internal/warnings";
 
 type DialogState = "open" | "closed";
@@ -225,7 +226,12 @@ export class DialogElement extends HTMLElement {
   #pendingCloseReason: DialogEventReason | null = null;
 
   connectedCallback(): void {
-    this.#refresh();
+    if (isDocumentLoading()) {
+      this.#queueRefresh();
+    } else {
+      this.#refresh();
+    }
+
     this.#observe();
     sharedTriggerDocumentObserver.register(this, () => this.#queueRefresh());
   }
@@ -330,7 +336,11 @@ export class DialogElement extends HTMLElement {
     if (dialogs.length === 0) {
       this.#dialog = null;
       this.dataset.state = "closed";
-      warn("Missing <dialog> inside <pe-dialog>.");
+
+      if (!isDocumentLoading()) {
+        warn("Missing <dialog> inside <pe-dialog>.");
+      }
+
       return;
     }
 

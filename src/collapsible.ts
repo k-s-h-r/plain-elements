@@ -4,6 +4,7 @@ import {
   type AttributeSnapshot
 } from "./internal/dom";
 import { dispatchCustomEvent } from "./internal/events";
+import { isDocumentLoading } from "./internal/document-loading";
 import {
   getFiniteAnimations,
   setTemporaryStyle,
@@ -65,7 +66,13 @@ export class CollapsibleElement extends HTMLElement {
     this.#hostStateSnapshot = this.getAttribute("data-state");
     this.#hostDisabledSnapshot = this.getAttribute("data-disabled");
     this.#open = this.hasAttribute("data-collapsible-open");
-    this.#refresh("attribute");
+
+    if (isDocumentLoading()) {
+      this.#queueRefresh();
+    } else {
+      this.#refresh("attribute");
+    }
+
     this.#observe();
   }
 
@@ -162,11 +169,15 @@ export class CollapsibleElement extends HTMLElement {
     this.#panel = panels[0] ?? null;
 
     if (this.#triggers.length === 0) {
-      warn("Missing [data-collapsible-trigger] inside <pe-collapsible>.");
+      if (!isDocumentLoading()) {
+        warn("Missing [data-collapsible-trigger] inside <pe-collapsible>.");
+      }
     }
 
     if (!this.#panel) {
-      warn("Missing [data-collapsible-panel] inside <pe-collapsible>.");
+      if (!isDocumentLoading()) {
+        warn("Missing [data-collapsible-panel] inside <pe-collapsible>.");
+      }
     } else if (panels.length > 1) {
       warn("Multiple [data-collapsible-panel] elements found; using the first one.");
     }

@@ -2,6 +2,7 @@ import { ManagedAccordionItem } from "./internal/accordion-managed";
 import { NativeAccordionItem } from "./internal/accordion-native";
 import { restoreAttribute } from "./internal/dom";
 import { dispatchCustomEvent } from "./internal/events";
+import { isDocumentLoading } from "./internal/document-loading";
 import { createWarnOnce } from "./internal/warnings";
 
 export type AccordionEventReason =
@@ -49,7 +50,13 @@ export class AccordionElement extends HTMLElement {
   connectedCallback(): void {
     this.#hostStateSnapshot = this.getAttribute("data-state");
     this.#hostDisabledSnapshot = this.getAttribute("data-disabled");
-    this.#refresh();
+
+    if (isDocumentLoading()) {
+      this.#queueRefresh();
+    } else {
+      this.#refresh();
+    }
+
     this.#observe();
   }
 

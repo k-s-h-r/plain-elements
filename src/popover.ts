@@ -25,6 +25,7 @@ import {
   setTemporaryStyle,
   waitForAnimations
 } from "./internal/motion";
+import { isDocumentLoading } from "./internal/document-loading";
 import { createTriggerDocumentObserver } from "./internal/trigger-document-observer";
 import { createWarnOnce } from "./internal/warnings";
 
@@ -142,10 +143,6 @@ function isTriggerManagedByAnyPopover(trigger: HTMLElement): boolean {
 }
 
 function warnForInvalidPopoverTriggers(): void {
-  if (document.readyState === "loading") {
-    return;
-  }
-
   for (const trigger of document.querySelectorAll<HTMLElement>(
     "[data-popover-trigger]"
   )) {
@@ -406,7 +403,12 @@ export class PopoverElement extends HTMLElement {
   #refreshQueued = false;
 
   connectedCallback(): void {
-    this.#refresh();
+    if (isDocumentLoading()) {
+      this.#queueRefresh();
+    } else {
+      this.#refresh();
+    }
+
     this.#observe();
     sharedTriggerDocumentObserver.register(this, () => this.#queueRefresh());
 
@@ -685,7 +687,7 @@ export class PopoverElement extends HTMLElement {
       this.#content = null;
       this.dataset.state = "closed";
 
-      if (document.readyState !== "loading") {
+      if (!isDocumentLoading()) {
         warn("Missing [data-popover-content] inside <pe-popover>.");
       }
 
