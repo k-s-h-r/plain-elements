@@ -116,6 +116,41 @@ test("opens from an internal trigger and synchronizes ARIA and state", async () 
   expect(event.detail.reason).toBe("trigger");
 });
 
+test('treats data-popover-trigger="true" as an internal empty trigger', async () => {
+  document.body.innerHTML = `
+    <pe-popover>
+      <button type="button" data-popover-trigger="true">Open</button>
+      <div data-popover-content hidden>
+        <h2 data-popover-title>Account</h2>
+        <button type="button" data-popover-close>Close</button>
+      </div>
+    </pe-popover>
+  `;
+
+  const host = document.querySelector("pe-popover") as PopoverElement;
+  const trigger = document.querySelector(
+    '[data-popover-trigger="true"]'
+  ) as HTMLButtonElement;
+  const content = document.querySelector(
+    "[data-popover-content]"
+  ) as HTMLElement;
+  const openEvent = new Promise<CustomEvent<PopoverEventDetail>>((resolve) => {
+    host.addEventListener(
+      "pe-popover:open",
+      (event) => resolve(event as CustomEvent<PopoverEventDetail>),
+      { once: true }
+    );
+  });
+
+  trigger.click();
+  const event = await openEvent;
+
+  expect(content.matches(":popover-open")).toBe(true);
+  expect(host.isOpen).toBe(true);
+  expect(trigger.getAttribute("aria-controls")).toBe(content.id);
+  expect(event.detail.reason).toBe("trigger");
+});
+
 test("stays closed when beforetoggle cancels opening", async () => {
   const { host, trigger, content } = setupBasicPopover();
   const onOpen = vi.fn();

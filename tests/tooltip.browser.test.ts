@@ -734,6 +734,32 @@ test("supports an internal empty trigger and generated content id", async () => 
   expect(openEvent.detail.reason).toBe("focus");
 });
 
+test('treats data-tooltip-trigger="true" as an internal empty trigger', async () => {
+  document.body.innerHTML = `
+    <pe-tooltip>
+      <button type="button" data-tooltip-trigger="true">Save</button>
+      <span data-tooltip-content>Saved changes are published.</span>
+    </pe-tooltip>
+  `;
+
+  await customElements.whenDefined("pe-tooltip");
+
+  const trigger = document.querySelector<HTMLButtonElement>(
+    '[data-tooltip-trigger="true"]'
+  );
+  const host = document.querySelector<TooltipElement>("pe-tooltip");
+  const content = document.querySelector<HTMLElement>("[data-tooltip-content]");
+
+  const openPromise = waitForTooltipEvent(host!, "pe-tooltip:open");
+  trigger?.focus();
+  const openEvent = await openPromise;
+
+  expect(content?.id).toMatch(/^pe-tooltip-content-/);
+  expect(trigger?.getAttribute("aria-describedby")).toBe(content?.id);
+  expect(content?.dataset.state).toBe("open");
+  expect(openEvent.detail.reason).toBe("focus");
+});
+
 test("keeps authored aria-describedby tokens when adding the tooltip id", async () => {
   document.body.innerHTML = `
     <span id="hint">Required</span>
