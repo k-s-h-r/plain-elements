@@ -1,6 +1,7 @@
 import {
   captureStyleProperty,
   escapeAttributeValue,
+  readTriggerValue,
   restoreAttribute,
   restoreStyleProperty,
   setAttributeIfNeeded,
@@ -129,7 +130,7 @@ function findEnhancedPopoverHostById(id: string): PopoverElement | null {
 }
 
 function isTriggerManagedByAnyPopover(trigger: HTMLElement): boolean {
-  const value = trigger.getAttribute("data-popover-trigger");
+  const value = readTriggerValue(trigger, "data-popover-trigger");
 
   if (value === null) {
     return false;
@@ -146,7 +147,7 @@ function warnForInvalidPopoverTriggers(): void {
   for (const trigger of document.querySelectorAll<HTMLElement>(
     "[data-popover-trigger]"
   )) {
-    const triggerValue = trigger.getAttribute("data-popover-trigger") ?? "";
+    const triggerValue = readTriggerValue(trigger, "data-popover-trigger") ?? "";
 
     if (triggerValue === "" && !trigger.closest("pe-popover")) {
       warn("Empty [data-popover-trigger] outside <pe-popover> is ignored.");
@@ -783,7 +784,7 @@ export class PopoverElement extends HTMLElement {
     ).filter(
       (trigger) =>
         isOwnedByHost(trigger, this) &&
-        trigger.getAttribute("data-popover-trigger") === ""
+        readTriggerValue(trigger, "data-popover-trigger") === ""
     );
 
     for (const trigger of internalTriggers) {

@@ -1,6 +1,7 @@
 import {
   captureStyleProperty,
   escapeAttributeValue,
+  readTriggerValue,
   restoreAttribute,
   restoreStyleProperty,
   setAttributeIfNeeded,
@@ -87,7 +88,7 @@ function isOwnedByHost(element: HTMLElement, host: HTMLElement): boolean {
 }
 
 function isTriggerManagedByAnyTooltip(trigger: HTMLElement): boolean {
-  const value = trigger.getAttribute("data-tooltip-trigger");
+  const value = readTriggerValue(trigger, "data-tooltip-trigger");
 
   if (value === null) {
     return false;
@@ -108,7 +109,7 @@ function warnForInvalidTooltipTriggers(): void {
   );
 
   for (const trigger of triggers) {
-    const triggerValue = trigger.getAttribute("data-tooltip-trigger") ?? "";
+    const triggerValue = readTriggerValue(trigger, "data-tooltip-trigger") ?? "";
 
     if (triggerValue === "" && !trigger.closest("pe-tooltip")) {
       warn("Empty [data-tooltip-trigger] outside <pe-tooltip> is ignored.");
@@ -1059,7 +1060,7 @@ export class TooltipElement extends HTMLElement {
     ).filter(
       (trigger) =>
         isOwnedByHost(trigger, this) &&
-        trigger.getAttribute("data-tooltip-trigger") === ""
+        readTriggerValue(trigger, "data-tooltip-trigger") === ""
     );
 
     for (const trigger of internalTriggers) {

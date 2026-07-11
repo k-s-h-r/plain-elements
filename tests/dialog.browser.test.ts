@@ -138,6 +138,27 @@ test("supports an internal empty trigger", async () => {
   expect(trigger?.getAttribute("aria-controls")).toBe(dialog?.id);
 });
 
+test('treats data-dialog-trigger="true" as an internal empty trigger', async () => {
+  document.body.innerHTML = `
+    <pe-dialog>
+      <button type="button" data-dialog-trigger="true">Open</button>
+      <dialog aria-label="React-style trigger dialog"></dialog>
+    </pe-dialog>
+  `;
+
+  await customElements.whenDefined("pe-dialog");
+
+  const trigger = document.querySelector<HTMLButtonElement>(
+    '[data-dialog-trigger="true"]'
+  );
+  const dialog = document.querySelector<HTMLDialogElement>("dialog");
+
+  trigger?.click();
+
+  expect(dialog?.open).toBe(true);
+  expect(trigger?.getAttribute("aria-controls")).toBe(dialog?.id);
+});
+
 test("derives aria-labelledby from data-dialog-title", async () => {
   document.body.innerHTML = `
     <pe-dialog id="settings-dialog">

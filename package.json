@@ -1,6 +1,6 @@
 {
   "name": "plain-elements",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Unstyled, accessible UI primitives as framework-agnostic Web Components. Light DOM and progressive enhancement, styled with your own CSS.",
   "keywords": [
     "web-components",

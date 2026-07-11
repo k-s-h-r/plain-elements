@@ -1,5 +1,6 @@
 import {
   escapeAttributeValue,
+  readTriggerValue,
   restoreAttribute,
   setAttributeIfNeeded
 } from "./internal/dom";
@@ -68,7 +69,7 @@ function findEnhancedDialogHostById(id: string): HTMLElement | null {
 }
 
 function isTriggerManagedByAnyDialog(trigger: HTMLElement): boolean {
-  const value = trigger.getAttribute("data-dialog-trigger");
+  const value = readTriggerValue(trigger, "data-dialog-trigger");
 
   if (value === null) {
     return false;
@@ -87,7 +88,7 @@ function warnForInvalidDialogTriggers(): void {
   );
 
   for (const trigger of triggers) {
-    const triggerValue = trigger.getAttribute("data-dialog-trigger") ?? "";
+    const triggerValue = readTriggerValue(trigger, "data-dialog-trigger") ?? "";
 
     if (triggerValue === "" && !trigger.closest("pe-dialog")) {
       warn("Empty [data-dialog-trigger] outside <pe-dialog> is ignored.");
@@ -458,7 +459,7 @@ export class DialogElement extends HTMLElement {
       this.querySelectorAll<HTMLElement>("[data-dialog-trigger]")
     ).filter(
       (trigger) =>
-        trigger.getAttribute("data-dialog-trigger") === "" &&
+        readTriggerValue(trigger, "data-dialog-trigger") === "" &&
         isOwnedByHost(trigger, this)
     );
 

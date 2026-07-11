@@ -28,6 +28,24 @@ export function escapeAttributeValue(value: string): string {
   return value.replaceAll("\\", "\\\\").replaceAll('"', '\\"');
 }
 
+export function readTriggerValue(
+  element: Element,
+  attribute: string
+): string | null {
+  const raw = element.getAttribute(attribute);
+
+  if (raw === null) {
+    return null;
+  }
+
+  // React boolean attributes serialize as ="true"; treat as an empty marker.
+  if (raw === "" || raw === "true") {
+    return "";
+  }
+
+  return raw;
+}
+
 export type StylePropertySnapshot = {
   value: string;
   priority: string;
